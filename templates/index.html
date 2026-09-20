@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>System Monitor</title>
+
+</head>
+<body>
+
+    <h1>System Monitor</h1>
+    <hr>
+
+    <main>
+        
+        <h2>CPU</h2>
+        <h3 id="cpu">Loading...</h3>
+        <h2>GPU</h2>
+        <h3 id="gpu">Loading...</h3>
+        <h2>Motherboard</h2>
+        <h3 id="motherboard">Loading...</h3>
+        <h2>Uptime</h2>
+        <h3 id="uptime">Loading...</h3>
+
+
+    </main>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
