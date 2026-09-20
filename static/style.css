@@ -1,0 +1,153 @@
+/* =========================
+   SYSTEM MONITOR
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   BODY
+   ========================= */
+
+body {
+    min-height: 100vh;
+
+    background: #0d1117;
+    color: #e6edf3;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    padding: 40px;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 1px;
+
+    margin-bottom: 15px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #30363d;
+
+    margin-bottom: 35px;
+}
+
+
+/* =========================
+   DASHBOARD
+   ========================= */
+
+main {
+    display: grid;
+
+    grid-template-columns: repeat(
+        2,
+        minmax(250px, 1fr)
+    );
+
+    gap: 20px;
+
+    max-width: 900px;
+}
+
+
+/* =========================
+   CARDS
+   ========================= */
+
+main h2 {
+    font-size: 15px;
+    font-weight: 500;
+
+    color: #8b949e;
+
+    margin-bottom: 10px;
+}
+
+main h3 {
+    font-size: 28px;
+    font-weight: 600;
+
+    color: #f0f6fc;
+}
+
+
+/* =========================
+   CARD BACKGROUND
+   ========================= */
+
+main h2,
+main h3 {
+    background: #161b22;
+
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/* Parte superior do card */
+
+main h2 {
+    padding-top: 20px;
+
+    margin-bottom: 0;
+
+    border-radius: 10px 10px 0 0;
+}
+
+
+/* Parte inferior do card */
+
+main h3 {
+    padding-top: 5px;
+    padding-bottom: 20px;
+
+    border-radius: 0 0 10px 10px;
+}
+
+
+/* =========================
+   HOVER
+   ========================= */
+
+main h2,
+main h3 {
+    transition: background 0.2s ease;
+}
+
+main h2:hover,
+main h3:hover {
+    background: #1c2128;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 25px;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+}
