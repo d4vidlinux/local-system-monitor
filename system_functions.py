@@ -1,24 +1,44 @@
+import psutil
+
 
 def cpu():
 
-    path = "/sys/class/hwmon/hwmon2/temp1_input"
-    with open(path, "r") as cpu_temp:
-        content = cpu_temp.read()
-        return int(content) / 1000
+    cpu_temperature = psutil.sensors_temperatures()
+
+    cpu_names = ['coretemp', 'k10temp', 'k8temp']
+    sensor_labels = {
+        'coretemp': ['Package id 0'],
+        'k10temp': ['Tdie', 'Tctl'],
+        'k8temp': ['Tctl']
+    }
+
+
+    for name in cpu_names:
+        try:
+            for temp in cpu_temperature[name]:
+                if temp.label in sensor_labels[name]:
+                    return temp.current
+
+        except KeyError:
+            pass
 
 def gpu():
+    gpu_temperature = psutil.sensors_temperatures()
 
-    path = "/sys/class/hwmon/hwmon1/temp1_input"
-    with open(path, "r") as gpu_temp:
-        content = gpu_temp.read()
-        return int(content) / 1000
+    gpu_names = ['amdgpu', 'nvidia', 'nouveau', 'i1915', 'xe', 'radeon', 'lima', 'panfrost']
 
-def motherboard():
+    try:
+        for name in gpu_names:
+            for temp in gpu_temperature[name]:
+                return temp.current
+    except KeyError:
+        pass
 
-    path = "/sys/class/hwmon/hwmon0/temp1_input"
-    with open(path, "r") as mboard_temp:
-        content = mboard_temp.read()
-        return int(content) / 1000
+def acpitz():
+
+    acpitz_temperature = psutil.sensors_temperatures()
+    
+    return acpitz_temperature['acpitz'][0].current
 
 def uptime():
 
@@ -33,7 +53,3 @@ def uptime():
         minutes = str((int(calc) * 60))
 
         return str(internum[0]) + "h:" + minutes[:2]
-
-
-
-
