@@ -1,155 +1,155 @@
-# System Monitor
+# Local System Monitor
 
-A small system monitoring dashboard I made to monitor my own Linux machine.
+A lightweight system monitoring dashboard built with **Python**, **Flask**, and **psutil**.
 
-The project reads hardware information directly from Linux and displays it through a simple web interface.
+The application collects hardware information from the local Linux system and exposes it through a simple web dashboard and API.
 
-Currently, it monitors:
+![Web System Monitor Image](images/system_monitor.png)
 
-* CPU temperature
-* GPU temperature
-* Motherboard temperature
-* System uptime
+## Features
 
-The main goal of this project is to practice working with **Linux system interfaces, Python, Flask, APIs and JavaScript**.
+* CPU temperature monitoring
+* GPU temperature monitoring
+* Motherboard temperature monitoring through `acpitz`
+* System uptime monitoring
+* REST API for system information
+* Support for multiple CPU temperature sensors
+* Support for multiple GPU sensor names
+* Local web dashboard
 
-![Web image](System_Monitor.png)
+## Requirements
 
-Author: d4vidlinux
-
-## Technologies
-
-* Python
+* Python 3
+* Linux
 * Flask
-* HTML
-* CSS
-* JavaScript
-* Linux `/sys` and `/proc`
+* psutil
 
-## Project Structure
+## Installation
 
-```text
-System-Monitor/
-├── app.py
-├── system_functions.py
-├── templates/
-│   └── index.html
-└── static/
-    ├── script.js
-    └── style.css
-```
-
-## How It Works
-
-The Python backend reads information directly from Linux.
-
-Temperature values are obtained through:
-
-```text
-/sys/class/hwmon/
-```
-
-while uptime is obtained from:
-
-```text
-/proc/uptime
-```
-
-Flask exposes the collected information through:
-
-```text
-/api/resources
-```
-
-The JavaScript frontend requests this endpoint every second and updates the dashboard.
-
-In short:
-
-```text
-Linux
-  ↓
-Python
-  ↓
-Flask API
-  ↓
-JavaScript
-  ↓
-Dashboard
-```
-
-## Running
-
-Install Flask:
+Clone the repository:
 
 ```bash
-pip install flask
+git clone https://github.com/d4vidlinux/local-system-monitor.git
+cd local-system-monitor
 ```
 
-Then run:
+Install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+Start the application:
 
 ```bash
 python3 app.py
 ```
 
-Open:
+The server will listen on:
 
 ```text
-http://127.0.0.1:5000
+http://localhost:5000
 ```
 
-The server also listens on `0.0.0.0:5000`, so the dashboard can be accessed through the machine's IP address from another device on the network.
-
-## About the Hardware Paths
-
-The project currently uses specific paths for my hardware:
-
-```text
-/sys/class/hwmon/hwmon2/temp1_input
-/sys/class/hwmon/hwmon1/temp1_input
-/sys/class/hwmon/hwmon0/temp1_input
-```
-
-These paths are dependent on the hardware and drivers of the machine.
-
-Because of that, this project **isn't intended to be a universal system monitoring tool**. If someone wants to use it on another machine, the sensor paths will probably need to be changed.
-
-This is intentional for the current version of the project.
-
-Rather than trying to support every possible hardware configuration, I chose to work directly with the interfaces exposed by my own Linux system.
+Because the application runs with `host="0.0.0.0"`, it can also be accessed from other devices on the same network using the machine's local IP address.
 
 ## API
 
-The `/api/resources` endpoint returns the current information as JSON:
+The system information is available through:
+
+```text
+GET /api/resources
+```
+
+Example response:
 
 ```json
 {
     "cpu": 45.0,
+    "acpitz": 38.0,
     "gpu": 42.0,
-    "motherboard": 38.0,
-    "uptime": "2h:35"
+    "uptime": "3h:27"
 }
 ```
 
-## Current Status
+### Available data
 
-This is a personal project and is still fairly simple.
+| Field    | Description                    |
+| -------- | ------------------------------ |
+| `cpu`    | CPU temperature                |
+| `gpu`    | GPU temperature                |
+| `acpitz` | Motherboard/system temperature |
+| `uptime` | System uptime                  |
 
-There is no database, authentication, historical data or automatic hardware detection.
+## Project Structure
 
-The project is mainly an experiment in connecting **Linux system information with a web interface**.
+```text
+Local-System-Monitor/
+├── app.py
+├── system_functions.py
+├── templates/
+│   └── index.html
+├── static/
+│   └── script.js
+│   └── style.css
+├── images/
+│   └── system_monitor.png
+└── requirements.txt
+```
 
-## Possible Improvements
+### `app.py`
 
-If I decide to continue developing it, some possible additions are:
+Contains the Flask application, routes, and API endpoint.
 
-* CPU usage
-* GPU usage
-* RAM usage
-* Disk usage
-* Network information
-* Process monitoring
-* Temperature history
-* Graphs
-* Automatic sensor detection
-* Better uptime formatting
+### `system_functions.py`
 
+Contains the functions responsible for retrieving system information using `psutil` and Linux system files.
+
+### `templates/`
+
+Contains the HTML used by the dashboard.
+
+### `static/`
+
+Contains frontend resources such as CSS and JavaScript.
+
+## Supported Sensors
+
+The application checks several possible sensor names when searching for CPU temperatures:
+
+```text
+coretemp
+k10temp
+k8temp
+```
+
+For GPUs, it checks:
+
+```text
+amdgpu
+nvidia
+nouveau
+i1915
+xe
+radeon
+lima
+panfrost
+```
+
+The exact sensors available depend on the hardware, drivers, and Linux kernel.
+
+## Technologies
+
+* **Python**
+* **Flask**
+* **psutil**
+* **HTML**
+* **CSS**
+* **JavaScript**
+* **Linux `/proc` filesystem**
+
+## Author
+
+**d4vidlinux**
