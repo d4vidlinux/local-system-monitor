@@ -4,7 +4,7 @@ async function updateTemp() {
 
     document.getElementById("cpu").textContent = data.cpu + " °C";
     document.getElementById("gpu").textContent = data.gpu + " °C";
-    document.getElementById("motherboard").textContent = data.motherboard + " °C";
+    document.getElementById("acpitz").textContent = data.acpitz + " °C";
     document.getElementById("uptime").textContent = data.uptime;
 }
 
