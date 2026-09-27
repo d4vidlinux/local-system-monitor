@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from system_functions import *
+from system_functions import cpu, acpitz, gpu, uptime
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def dashboard():
 def temperature():
     return {
         "cpu": cpu(),
-        "motherboard": motherboard(),
+        "acpitz": acpitz(),
         "gpu": gpu(),
         "uptime": uptime()
     }
